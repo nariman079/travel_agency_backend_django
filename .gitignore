@@ -14,7 +14,7 @@ ui
 *.pyc
 __pycache__/
 dist
-src
+
 .coverage
 *.zip__pycache__
 *.pyc
