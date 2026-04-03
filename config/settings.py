@@ -16,7 +16,7 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-SECRET_KEY = os.environ.get('SECRET_KEY', 'test')
+SECRET_KEY = os.getenv("SECRET_KEY", "Test")
 
 DEBUG = True
 
