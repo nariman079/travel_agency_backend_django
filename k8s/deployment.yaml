@@ -18,9 +18,6 @@ spec:
           image: nariman079i/travel-agency-ethno:latest
           ports:
           - containerPort: 8000
-          envFrom:
-          - secretRef:
-              name: travel-db-secrets
           volumeMounts:
           - name: travel-data            # ✅ Это имя должно совпадать с именем в секции volumes ниже
             mountPath: /app/median
