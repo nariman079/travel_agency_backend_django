@@ -1,9 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
-metadata: 
+metadata:
   name: travel-agency
   namespace: default 
-
 spec: 
   replicas: 1
   selector:
@@ -16,17 +15,22 @@ spec:
     spec: 
       containers:
         - name: django
-          image: nariman079i/travel-agency-ethno:latest
+          image: nariman079i/travel-agency-backend:latest
           ports:
           - containerPort: 8000
           envFrom:
           - secretRef:
               name: travel-db-secrets
           volumeMounts:
-          - name: travel-data
-            mountPath: /app/media
+          - name: travel-data            # ✅ Это имя должно совпадать с именем в секции volumes ниже
+            mountPath: /app/median
           command: ['/bin/sh', '-c']
           args:
-          - python manage.py migrate && 
+          - |
+            python manage.py migrate && 
             python manage.py collectstatic --noinput &&
-            uvicorn config.asgi:application --host 0.0.0.0 --port 8000
+            uvicorn conf.asgi:application --host 0.0.0.0 --port 8000
+      volumes:                           # ✅ ЭТА СЕКЦИЯ БЫЛА ОТСУТСТВУЕТ ИЛИ НЕПРАВИЛЬНА
+      - name: travel-data                # ✅ Имя здесь должно быть точно таким же: travel-data
+        persistentVolumeClaim:
+          claimName: travel-data-pvc     # ✅ Убедитесь, что этот PVC существует и привязан к PV manual-pv-travel-v2
