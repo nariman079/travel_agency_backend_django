@@ -1,6 +1,6 @@
-apiVersion: app/v1
+apiVersion: apps/v1
 kind: Deployment
-meta: 
+metadata: 
   name: travel-agency
   namespace: default 
 
@@ -10,7 +10,7 @@ spec:
     matchLabels:
       app: travel-agency
   template:
-    meta:
+    metadata:
       labels:
         app: travel-agency
     spec: 
@@ -24,9 +24,9 @@ spec:
               name: travel-db-secrets
           volumeMounts:
           - name: travel-data
-            mountPath: /app/median
+            mountPath: /app/media
           command: ['/bin/sh', '-c']
           args:
           - python manage.py migrate && 
             python manage.py collectstatic --noinput &&
-            uvicorn conf
+            uvicorn config.asgi:application --host 0.0.0.0 --port 8000
