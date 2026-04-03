@@ -6,16 +6,17 @@ from src.admin import content_admin, application_admin
 
 urlpatterns = [
     path(
-        'content-management/',
+        'admin/',
         content_admin.content_management_admin.urls,
         name="content-management"
     ),
     path(
-        'application-collect/',
+        'applications/',
         application_admin.application_collection_admin.urls,
         name="application-collect"
     ),
     path('', include('src.urls'))
 ]
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
