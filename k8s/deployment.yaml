@@ -16,7 +16,7 @@ spec:
     spec: 
       containers:
         - name: django
-          image: nariman079i/travel-agency-backend:latest
+          image: nariman079i/travel-agency-ethno:latest
           ports:
           - containerPort: 8000
           envFrom:
