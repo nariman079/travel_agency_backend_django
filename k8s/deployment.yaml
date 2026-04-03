@@ -1,0 +1,32 @@
+apiVersion: app/v1
+kind: Deployment
+meta: 
+  name: travel-agency
+  namespace: default 
+
+spec: 
+  replicas: 1
+  selector:
+    matchLabels:
+      app: travel-agency
+  template:
+    meta:
+      labels:
+        app: travel-agency
+    spec: 
+      containers:
+        - name: django
+          image: nariman079i/travel-agency-backend:latest
+          ports:
+          - containerPort: 8000
+          envFrom:
+          - secretRef:
+              name: travel-db-secrets
+          volumeMounts:
+          - name: travel-data
+            mountPath: /app/median
+          command: ['/bin/sh', '-c']
+          args:
+          - python manage.py migrate && 
+            python manage.py collectstatic --noinput &&
+            uvicorn conf
